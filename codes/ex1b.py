@@ -1,6 +1,6 @@
 import os
 import cv2
-from .imwriter import ImageWriter
+from imwriter import ImageWriter
 
 cap = cv2.VideoCapture('../inputs/ebu7240_hand.mp4')
 
@@ -23,7 +23,7 @@ while cap.isOpened():
     if ret == True:
         frame_count += 1
         if frame_count <= 90:
-            frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+            # frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
 
             start_row, start_col = frame.shape[0] - \
                 im_myname.shape[0], frame_count * 2

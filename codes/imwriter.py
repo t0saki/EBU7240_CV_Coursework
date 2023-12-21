@@ -3,10 +3,10 @@ import cv2
 
 
 class ImageWriter:
-    def __init__(self, output_dir: str, write_frames: list):
+    def __init__(self, output_dir: str, write_frames: list, init_count=0):
         self.output_dir = output_dir
         self.write_frames = write_frames
-        self.frame_count = 0
+        self.frame_count = init_count
 
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir)
