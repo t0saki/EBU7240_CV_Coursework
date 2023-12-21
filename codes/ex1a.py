@@ -20,8 +20,8 @@ while (cap.isOpened()):
     ret, frame = cap.read()
     if ret == True:
         frame_count += 1
-        frame = cv2.resize(frame, (640, 360))
-        frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+        # frame = cv2.resize(frame, (640, 360))
+        # frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
 
         if 1 <= frame_count <= 30:
             pass

@@ -17,9 +17,10 @@ def load_images_from_folder(folder):
     return images
 
 
-airplane_images = load_images_from_folder('../inputs/cifar-10-to-png/airplane')
+airplane_images = load_images_from_folder(
+    '../inputs/cifar-10-to-png/airplane')[:2201]
 not_airplane_images = load_images_from_folder(
-    '../inputs/cifar-10-to-png/not_airplane')
+    '../inputs/cifar-10-to-png/not_airplane')[:2201]
 
 airplane_labels = [1] * len(airplane_images)
 not_airplane_labels = [0] * len(not_airplane_images)
@@ -48,7 +49,7 @@ y_test = np.array(y_test)
 
 
 class CustomSVM:
-    def __init__(self, learning_rate=0.001, lambda_param=0.001, n_iters=10000):
+    def __init__(self, learning_rate=0.001, lambda_param=0.01, n_iters=10000):
         self.lr = learning_rate
         self.lambda_param = lambda_param
         self.n_iters = n_iters
@@ -140,8 +141,8 @@ def display_detected_images(images, labels, preds, target_label, title, count=5)
     for i in range(min(len(detected), count)):
         image = detected[i].reshape(3, 32, 32).transpose([1, 2, 0])
         cv2.imshow(f"{title} {i+1}", image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+        os.makedirs("../results/ex4b_results/", exist_ok=True)
+        cv2.imwrite(f"../results/ex4b_results/{title} {i+1}.jpg", image)
 
 
 display_detected_images(X_test, y_test, predictions_rgb,
@@ -156,5 +157,7 @@ display_detected_images(X_test, y_test, predictions_hog,
 display_detected_images(X_test, y_test, np.invert(
     predictions_hog.astype(bool)), "Not Airplane", "HOG Detected Not Airplanes")
 
+cv2.waitKey(0)
+cv2.destroyAllWindows()
 
 ##########################################################################################
