@@ -1,16 +1,19 @@
 # Gaussian filtering without OpenCV
 import numpy as np
 import cv2
+from imwriter import ImageWriter
 
-#--------------------------------- WRITE YOUR CODE HERE ---------------------------------#
+# --------------------------------- WRITE YOUR CODE HERE ---------------------------------#
 # You can define functions here
 # NO OPENCV FUNCTION IS ALLOWED HERE
+
 
 def gaussian_filter_gray(im_gray, window_size, std_dev):
     # Create Gaussian kernel
     kernel_size = window_size
     kernel = np.fromfunction(
-        lambda x, y: (1/2*np.pi*std_dev**2)*np.exp(-((x-(kernel_size-1)/2)**2+(y-(kernel_size-1)/2)**2)/(2*std_dev**2)), 
+        lambda x, y: (1/2*np.pi*std_dev**2)*np.exp(-((x-(kernel_size-1)/2)
+                                                     ** 2+(y-(kernel_size-1)/2)**2)/(2*std_dev**2)),
         (kernel_size, kernel_size)
     )
     kernel /= np.sum(kernel)
@@ -22,7 +25,8 @@ def gaussian_filter_gray(im_gray, window_size, std_dev):
 
     for i in range(pad_size, padded_image.shape[0] - pad_size):
         for j in range(pad_size, padded_image.shape[1] - pad_size):
-            im_blurred[i-pad_size, j-pad_size] = np.sum(padded_image[i-pad_size:i+pad_size+1, j-pad_size:j+pad_size+1] * kernel)
+            im_blurred[i-pad_size, j-pad_size] = np.sum(
+                padded_image[i-pad_size:i+pad_size+1, j-pad_size:j+pad_size+1] * kernel)
 
     return im_blurred
 

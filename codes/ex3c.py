@@ -21,18 +21,15 @@ def cost_aggregation_window(aggregated_cost, matching_cost, kernel, d_max):
     # NO OPENCV FUNCTION IS ALLOWED HERE
 
     h, w = aggregated_cost.shape[:2]
-    r = kernel_size // 2  # radius of the window
+    r = kernel_size // 2
 
-    # Iterate over each pixel
     for y in range(h):
         for x in range(w):
             for d in range(d_max):
 
-                # Define the window boundaries
                 y_min, y_max = max(y - r, 0), min(y + r, h - 1)
                 x_min, x_max = max(x - r, 0), min(x + r, w - 1)
 
-                # Compute the sum of the matching costs within the window
                 aggregated_cost[y, x, d] = np.sum(
                     matching_cost[y_min:y_max+1, x_min:x_max+1, d])
 

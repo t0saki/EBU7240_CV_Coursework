@@ -28,38 +28,30 @@ def cost_aggregation_adaptiveweight(aggregated_cost, matching_cost, left_img, ke
     # NO OPENCV FUNCTION IS ALLOWED HERE
 
     h, w = left_img.shape
-    r = kernel_size // 2  # radius of the window
+    r = kernel_size // 2
 
-    # Iterate over each pixel
     for y in range(h):
         for x in range(w):
             for d in range(d_max):
 
-                # Define the window boundaries
                 y_min, y_max = max(y - r, 0), min(y + r, h - 1)
                 x_min, x_max = max(x - r, 0), min(x + r, w - 1)
 
-                # Initialize the sums used to compute the weighted average
                 weight_sum, cost_sum = 0.0, 0.0
 
-                # Iterate over each pixel in the window
                 for j in range(y_min, y_max + 1):
                     for i in range(x_min, x_max + 1):
 
-                        # Compute the intensity and spatial distances
                         intensity_distance = np.abs(
                             int(left_img[j, i]) - int(left_img[y, x]))
                         spatial_distance = distance(x, y, i, j)
 
-                        # Compute the weights using the Gaussian functions
                         weight = gaussian(
                             intensity_distance, sigma_r) * gaussian(spatial_distance, sigma_s)
 
-                        # Update the sums
                         weight_sum += weight
                         cost_sum += weight * matching_cost[j, i, d]
 
-                # Compute the weighted average
                 aggregated_cost[y, x, d] = cost_sum / \
                     weight_sum if weight_sum > 0 else 0
 
